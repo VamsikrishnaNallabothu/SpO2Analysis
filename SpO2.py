@@ -1,19 +1,13 @@
 
 from __future__ import print_function
 from flask import Flask, render_template, url_for
-# for python 2 compatibility #
 import tempfile
-#                            #
+# for storing the images
 import numpy as np
 import matplotlib
 matplotlib.use('Qt4Agg')
 from skimage import io, color, transform
 import matplotlib.pyplot as plt, mpld3
-from mpl_toolkits.mplot3d import Axes3D
-
-# %matplotlib inline
-# notebook
-from matplotlib.colors import ListedColormap
 import matplotlib.pylab as pylab
 import csv
 import math
@@ -23,77 +17,61 @@ app = Flask(__name__)
 pylab.rcParams['font.size'] = 24
 
 
-def squarePlot():
+def square_diag_plot():
     pylab.rcParams['figure.figsize'] = (10, 10)
     return pylab.rcParams['figure.figsize']
 
 
-def rectPlot():
+def rectangular_Plot():
     pylab.rcParams['figure.figsize'] = (32.0 * 2/3, 24.0 * 2/5)
     return pylab.rcParams['figure.figsize']
 
 
-def toInt(n):
+def toSumInt(n):
     chars = list(filter(lambda c : c != ',', n))
     x = len(chars)
     return sum([int(c)*10**(x-i) for i, c in enumerate(chars)])
 
 
-def readData(file):
+def rdcsvData(file):
     rows = []
     with open(file+'.csv', 'rt') as csvfile:
         reader = csv.reader(csvfile)
         for row in reader:
             rows.append(row)
-
-    # filter out non-data rows:
+    # eliminate empty rows:
     rows = rows[2:len(rows)-1]
     return rows
 
-rows = readData('sleep-data/0216')
-rows += readData('sleep-data/0316')
-rows += readData('sleep-data/0416')
+# readoing the fitbit data
+rows = rdcsvData('sleep-data/0216')
+rows += rdcsvData('sleep-data/0316')
+rows += rdcsvData('sleep-data/0416')
 
-sleepDates         = [row[0] for row in rows]
-minutesAsleep      = [toInt(row[1]) for row in rows]
-minutesAwake       = [toInt(row[2]) for row in rows]
-numberOfAwakenings = [toInt(row[3]) for row in rows]
-timeInBed          = [toInt(row[4]) for row in rows]
+sleep_rec_dates = [row[0] for row in rows]
+asleepMinutes = [toSumInt(row[1]) for row in rows]
+awakeMinutes = [toSumInt(row[2]) for row in rows]
+numOfAwakenings = [toSumInt(row[3]) for row in rows]
+timeInBed = [toSumInt(row[4]) for row in rows]
 
-rows = readData('activities-data/0216')
-rows += readData('activities-data/0316')
-rows += readData('activities-data/0416')
+rows = rdcsvData('activities-data/0216')
+rows += rdcsvData('activities-data/0316')
+rows += rdcsvData('activities-data/0416')
 
-activityDates        = [row[0] for row in rows]
-caloriesBurned       = [toInt(row[1]) for row in rows]
-steps                = [toInt(row[2]) for row in rows]
-distance             = [float(row[3]) for row in rows]
-floors               = [toInt(row[4]) for row in rows]
-minutesSedentary     = [toInt(row[5]) for row in rows]
-minutesLightlyActive = [toInt(row[6]) for row in rows]
-minutesFairlyActive  = [toInt(row[7]) for row in rows]
-minutesVeryActive    = [toInt(row[8]) for row in rows]
-activeCalories       = [toInt(row[9]) for row in rows]
+activity_rec_dates = [row[0] for row in rows]
+caloriesBurnt = [toSumInt(row[1]) for row in rows]
+steps = [toSumInt(row[2]) for row in rows]
+distance = [float(row[3]) for row in rows]
+floors = [toSumInt(row[4]) for row in rows]
+minutesSedentary = [toSumInt(row[5]) for row in rows]
+minutesLightlyActive = [toSumInt(row[6]) for row in rows]
+minutesFairlyActive = [toSumInt(row[7]) for row in rows]
+minutesVeryActive = [toSumInt(row[8]) for row in rows]
+activeCalories = [toSumInt(row[9]) for row in rows]
 
 
 
-def normalise(data):
-    m = max(data)
-    return [float(i)/m for i in data]
-
-def LSM(data, p):
-    xVals = []
-    yVals = []
-    for (x, y) in data:
-        xVals.append([x**n for n in range(0, p+1)])
-        yVals.append([y])
-
-    y = np.matrix(yVals)
-    X = np.matrix(xVals)
-    XT = X.transpose()
-    return ((XT*X)**(-1))*XT*y
-
-def evalEqn(f, lower, upper, d=500):
+def getpts(f, lower, upper, d=500):
     x = []
     y = []
     for i in range(int(lower*d), int(upper*d)):
@@ -101,30 +79,46 @@ def evalEqn(f, lower, upper, d=500):
         y.append(f(i/d))
     return (x, y)
 
+def nrmlize(data):
+    m = max(data)
+    return [float(i)/m for i in data]
+
+def LSmatrix(data, p):
+    xVals = []
+    yVals = []
+    for (x, y) in data:
+        xVals.append([x**n for n in range(0, p+1)])
+        yVals.append([y])
+    y = np.matrix(yVals)
+    X = np.matrix(xVals)
+    XT = X.transpose()
+    return ((XT*X)**(-1))*XT*y
+
+
 # plots a scatter diagram with a best fit equation of degree n
 def plotBestFit(ax, x1, x2, n, col='#00ff00'):
     data = zip(x1, x2)
-    c = LSM(data, n)
+    c = LSmatrix(data, n)
     f = lambda x : sum([c[i]*(x**i) for i in range(0,len(c))])[0, 0]
-    (y1, y2) = evalEqn(f, min(x1), max(x1), 2)
+    (y1, y2) = getpts(f, min(x1), max(x1), 2)
     ax.plot(y1, y2)
     return c
 
 
 @app.route('/')
 def index():
-    # print (normalise(minutesAsleep))
+    # print (nrmlize(asleepMinutes))
     return render_template('index.html')
 
 
 @app.route('/sleepBehavior')
 def sleepBehavior():
-    rectPlot()
+    rectangular_Plot()
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    instances = [i for i, r in enumerate(minutesAsleep)]
-    ax.plot(instances, minutesAsleep, label='Minutes asleep.')
-    ax.plot(instances, minutesAwake, label='Minutes awake.')
+    instances = [i for i, r in enumerate(asleepMinutes)]
+    ax.plot(instances, asleepMinutes, label='Minutes asleep.')
+    ax.plot(instances, awakeMinutes, label='Minutes awake.')
     ax.plot(instances, timeInBed, label='Time in bed.')
     ax.set_xlabel('Date')
     ax.set_ylabel('Minutes')
@@ -143,12 +137,12 @@ def sleepBehavior():
 
 @app.route('/sleepMinutes')
 def sleepMinutes():
-    rectPlot()
+    rectangular_Plot()
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    instances = [i for i, r in enumerate(minutesAsleep)]
-    ax.plot(instances, normalise(steps), label='Steps')
-    ax.plot(instances, normalise(minutesAsleep), label='Minutes Asleep')
+    instances = [i for i, r in enumerate(asleepMinutes)]
+    ax.plot(instances, nrmlize(steps), label='Steps')
+    ax.plot(instances, nrmlize(asleepMinutes), label='Minutes Asleep')
     ax.set_xlabel('Date')
     # ax.set_ylabel('Minutes')
     ax.legend(loc=0)
@@ -162,13 +156,13 @@ def sleepMinutes():
     plotPng = f.name.split('/')[-1]
     return render_template('figures.html', plotPng=plotPng)
 
-asleepNorm = normalise(minutesAsleep)
+asleepNorm = nrmlize(asleepMinutes)
 @app.route('/sleepComparison')
 def sleepComparison():
     # global asleepNorm
     global awakeNorm
-    awakeNorm = normalise(minutesAwake)
-    rectPlot()
+    awakeNorm = nrmlize(awakeMinutes)
+    rectangular_Plot()
     fig = plt.figure()
     ax = fig.add_subplot(111)
     ax.scatter(asleepNorm, awakeNorm)
@@ -185,18 +179,17 @@ def sleepComparison():
     plotPng = f.name.split('/')[-1]
     mean = (np.mean(asleepNorm), np.mean(awakeNorm))
     cov = np.cov([asleepNorm, awakeNorm])
-    print(LSM(zip(asleepNorm, awakeNorm), 1))
+    print(LSmatrix(zip(asleepNorm, awakeNorm), 1))
     return render_template('figures.html', plotPng=plotPng)
 
 
-stepsNorm = normalise(steps)
+stepsNorm = nrmlize(steps)
+distanceNorm = nrmlize(distance)
 @app.route('/fitbitStepCount')
 def fitbitStepCount():
     # global stepsNorm
-    global distanceNorm
-    distanceNorm = normalise(distance)
-
-    rectPlot()
+    # global distanceNorm
+    rectangular_Plot()
     fig = plt.figure()
     ax = fig.add_subplot(111)
     ax.scatter(distanceNorm, stepsNorm)
@@ -211,7 +204,7 @@ def fitbitStepCount():
     # get the file's name
     # (the template will need that)
     plotPng = f.name.split('/')[-1]
-    print(LSM(zip(distanceNorm, stepsNorm), 1))
+    print(LSmatrix(zip(distanceNorm, stepsNorm), 1))
     mean = (np.mean(distanceNorm), np.mean(stepsNorm))
     cov = np.cov([distanceNorm, stepsNorm])
     print(mean)
@@ -222,7 +215,7 @@ def fitbitStepCount():
 @app.route('/fitbitStepCal')
 def fitbitStepCal():
     diff = [y - x for (x, y) in zip(distanceNorm, stepsNorm)]
-    rectPlot()
+    rectangular_Plot()
     fig = plt.figure()
     ax = fig.add_subplot(111)
     ax.scatter([i for i, x in enumerate(diff)], diff)
@@ -243,7 +236,7 @@ def fitbitStepCal():
 
 @app.route('/sleepVsDayActivity')
 def sleepVsDayActivity():
-    rectPlot()
+    rectangular_Plot()
     fig = plt.figure()
     ax = fig.add_subplot(111)
     ax.scatter(asleepNorm, stepsNorm)
@@ -263,5 +256,4 @@ def sleepVsDayActivity():
 
 
 if __name__ == '__main__':
-    app.debug=True
-    app.run()
+    app.run(debug=True)
