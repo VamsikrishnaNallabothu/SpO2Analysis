@@ -1,0 +1,110 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Charts</h1>
+        <h6 ng-if="fitbitData">To analyze your fitbit data <a href ng-click="getFitBitData()">click here</a> </h6>
+    </div>
+    <div class="col-lg-12">
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    FitBit Bio
+                </div>
+                <div class="panel-body">
+                    <div class="profile-left">
+                        <img id="profile-img" class="img-responsive img-rounded" src="{{avatar}}" alt="{{username}}" />
+                    </div>
+                    <div class="profile-right">
+                        <h3>{{name}}</h3>
+                        <p>Gender: <b>{{gender}}</b></p>
+                        <p>Average Daily Steps: <b>{{averageDailySteps}}</b></p>
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="profile-right">
+                        <p>Height: <b>{{user.height}}</b></p>
+                        <p>Weight: <b>{{user.weight}}</b></p>
+                        <p>Display Name: <b>{{user.displayName}}</b></p>
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="profile-right">
+                        <p>Member since: <b>{{user.memberSince}}</b></p>
+                        <p>DOB: <b>{{user.dateOfBirth}}</b></p>
+                        <p>Time Zone: <b>{{user.timezone}}</b></p>
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Top 3 Badges Earned
+                </div>
+                <div class="panel-body">
+                    <div class="profile-right">
+                        <p>Badge 1: <b>{{user.topBadges[0].category}}</b></p>
+                        <p>Badge 2: <b>{{user.topBadges[1].category}}</b></p>
+                        <p>Badge 3: <b>{{user.topBadges[2].category}}</b></p>
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6 col-sm-12">
+        <div class="dropdown form-group">
+            <label>Start Date</label>
+            <p class="input-group">
+                <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt1" is-open="popup1.opened" datepicker-options="startDateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" ng-change="dateChange()" />
+                <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+            </p>
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-12">
+        <div class="dropdown form-group">
+            <label>End Date</label>
+            <p class="input-group">
+                <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt2" is-open="popup2.opened" datepicker-options="endDateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" ng-change="dateChange()" />
+                <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+            </p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6 col-sm-12" id="line-chart">
+        <div class="panel panel-default">
+            <div class="panel-heading">Step Chart</div>
+            <div class="panel-body">
+                <canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels" chart-legend="true" chart-series="series" chart-click="onClick">
+                </canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-12" id="bar-chart">
+        <div class="panel panel-default">
+            <div class="panel-heading">Bar Chart</div>
+            <div class="panel-body">
+                <canvas id="bar" class="chart chart-bar" chart-data="barData" chart-labels="barLabels" chart-series="barSeries"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>

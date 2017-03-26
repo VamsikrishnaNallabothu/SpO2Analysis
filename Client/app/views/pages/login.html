@@ -1,0 +1,30 @@
+<div class="container">
+    <div class="row">
+        <div class="container-fluid">
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Please Sign In</h3>
+                </div>
+                <div class="panel-body">
+                    <form role="form" ng-submit="login()">
+                        <fieldset>
+                            <div class="form-group">
+                                <input class="form-control" ng-model="user.email" placeholder="E-mail" name="email" type="email" autofocus required>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" ng-model="user.password" placeholder="Password" name="password" type="password" value="" required>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    Not a member? <a ui-sref="signup"> Sign Up </a>
+                                </label>
+                            </div>
+                            <!-- Change this to a button or input when using this as a form -->
+                            <button type="submit" class="btn btn-lg btn-success btn-block">Login</button>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,77 @@
+<div class="container">
+    <div class="row">
+        <div class="container-fluid">
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Predictive Analysis</h3>
+                </div>
+                <div class="panel-body">
+                    <form ng-submit="predict()">
+                        <div class="form-group row">
+                            <label for="example-tel-input" class="col-xs-2 col-form-label">Telephone</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" ng-model="user.telNo" type="tel" placeholder="1-(555)-555-5555" id="example-tel-input" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-datetime-local-input" class="col-xs-2 col-form-label">Age</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" ng-model="user.ageNumber" type="text" placeholder="Age" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-datetime-local-input" class="col-xs-2 col-form-label">BMI</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" ng-model="user.bmiNumber" type="text" placeholder="Body Mass Index" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-date-input" class="col-xs-2 col-form-label">Weight</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" ng-model="user.weight" type="number" placeholder="Weight"  required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-month-input" class="col-xs-2 col-form-label">Blood Pressure</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" ng-model="user.bp" type="text" placeholder="Average blood pressure" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-week-input" class="col-xs-2 col-form-label">Sleep Hours</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" ng-model="user.sleepHours" type="number" placeholder="Sleep Hours" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-time-input" class="col-xs-2 col-form-label">Do you snore</label>
+                            <div class="col-xs-10">
+                                <label class="form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" ng-model="user.snorelevel" id="inlineRadio1" value="yes"> Yes
+                                </label>
+                                <label class="form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" ng-model="user.snorelevel" id="inlineRadio2" value="no"> No
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-time-input" class="col-xs-2 col-form-label">Do you have disturbed sleep</label>
+                            <div class="col-xs-10">
+                                <label class="form-check-inline">
+                                    <input class="form-check-input" type="radio" ng-model="user.disturbed" name="inlineRadioOptions1" id="inlineRadio1" value="high"> Very often
+                                </label>
+                                <label class="form-check-inline">
+                                    <input class="form-check-input" type="radio" ng-model="user.disturbed" name="inlineRadioOptions1" id="inlineRadio2" value="low"> Often
+                                </label>
+                                <label class="form-check-inline">
+                                    <input class="form-check-input" type="radio" ng-model="user.disturbed" name="inlineRadioOptions1" id="inlineRadio3" value="never"> Rare
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-lg btn-success btn-block">Predict</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

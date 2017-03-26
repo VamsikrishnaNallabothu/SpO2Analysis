@@ -1,0 +1,118 @@
+<div>
+    <div class="row">
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <h1> Dashboard </h1>
+            </div>
+            <div class="col-lg-6 col-sm-12">
+                <div class="dropdown form-group" style="padding-top:20px;">
+                    <label>Select file to upload</label>
+                    <div>
+                        <input class="button pull-left" name="file" type="file" file />
+                        <button class="pull-right" type="submit" ng-click="submit()">submit</button>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div>
+                </div>
+            </div>
+        </div>
+        <!-- /.col-lg-12 -->
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="dropdown form-group">
+                    <label>Start Date</label>
+                    <p class="input-group">
+                        <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt1" is-open="popup1.opened" datepicker-options="startDateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" ng-change="dateChange()"/>
+                        <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-6 col-sm-12">
+                <div class="dropdown form-group">
+                    <label>End Date</label>
+                    <p class="input-group">
+                        <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt2" is-open="popup2.opened" datepicker-options="endDateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" ng-change="dateChange()"/>
+                        <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-sm-12" id="line-chart">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Line Chart</div>
+                    <div class="panel-body">
+                        <canvas id="line" class="chart chart-line chart-xl" chart-data="line.data" chart-labels="line.labels" chart-legend="true" chart-click="line.onClick" chart-series="line.series"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-sm-12" id="bar-chart">
+                <div class="col-sm-12 col-md-12">
+                    <h3 class="small-header m-t-5 m-b-20"> SpO2% vs Time</h2>
+                    <figure class="hidden-sm hidden-md hidden-lg m-t-30 m-b-30">
+                        <img src="https://static-www.elastic.co/assets/blt023c952065c509fc/rocket-mobile.svg?q=444" alt="SPEED" class="img-responsive hidden-sm hidden-md hidden-lg m-b-30">
+                    </figure>
+                    <p>SpO2 stands for peripheral capillary oxygen saturation, an estimate of the amount of oxygen in the blood. More specifically, it is the percentage of oxygenated haemoglobin (haemoglobin containing oxygen) compared to the total amount of haemoglobin in the blood (oxygenated and non-oxygenated haemoglobin).
+                    </p>
+                    <p>
+                    The graph depicts the reading of SpO2 over a perios of 1 day.
+                    </p>
+                    <p>
+                        SpO2 data at particular hour can be seen by hovering on the graph
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-6 col-sm-12" id="bar-chart">
+                <div class="col-sm-12 col-md-12">
+                    <h3 class="small-header m-t-5 m-b-20"> Pulse Rate vs Time</h3>
+                    <figure class="hidden-sm hidden-md hidden-lg m-t-30 m-b-30">
+                        <img src="https://static-www.elastic.co/assets/blt023c952065c509fc/rocket-mobile.svg?q=444" alt="SPEED" class="img-responsive hidden-sm hidden-md hidden-lg m-b-30">
+                    </figure>
+                    <p>SpO2 stands for peripheral capillary oxygen saturation, an estimate of the amount of oxygen in the blood. More specifically, it is the percentage of oxygenated haemoglobin (haemoglobin containing oxygen) compared to the total amount of haemoglobin in the blood (oxygenated and non-oxygenated haemoglobin).
+                    </p>
+                    <p>
+                    The graph depicts the reading of Pulse rate over a perios of 1 day.
+                    </p>
+                    <p>
+                        Pulse rate at particular hour can be seen by hovering on the graph
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-6 col-sm-12" id="line-chart">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Bar Chart</div>
+                    <div class="panel-body">
+                        <canvas id="bar" class="chart chart-bar" chart-data="bar.data" chart-labels="bar.labels" chart-series="bar.series" chart-options="bar.options" chart-click="bar.onClick"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        SpO2 & Pulse Rate against Time
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <canvas id="base" class="chart-bar" chart-data="mixedData" chart-labels="mixedLabels" chart-colors="colors" chart-dataset-override="datasetOverride" >
+                        </canvas>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.row -->
+</div>

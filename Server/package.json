@@ -1,0 +1,31 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.7.10",
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.15.2",
+    "busboy": "^0.2.13",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.1",
+    "csv": "^1.1.0",
+    "elasticsearch-csv": "0.0.3",
+    "express": "^4.14.0",
+    "express-session": "^1.14.1",
+    "mongoose": "^4.6.2",
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.1",
+    "passport-local": "^1.0.0",
+    "passport-twitter": "^1.0.4",
+    "twilio": "^2.11.1",
+    "underscore": "^1.8.3"
+  }
+}

@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="row">
+        <div class="container-fluid">
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Please update profile</h3>
+                    <h6>Click cancel to return to dashboard</h6>
+                </div>
+                <div class="panel-body">
+                    <form ng-submit="submit()">
+                        <div class="form-group row">
+                            <label for="example-text-input" class="col-xs-2 col-form-label">Name</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="text" ng-model="loggedInUser.name" value="User Name" id="example-text-input" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-search-input" class="col-xs-2 col-form-label">Email</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="email" ng-model="loggedInUser.email" value="Email Address" id="example-search-input" disabled required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-email-input" class="col-xs-2 col-form-label">Age</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="number" ng-model="loggedInUser.age" value="bootstrap@example.com" id="example-email-input" required>
+                            </div>
+                        </div>
+                        <div class="form-group-row">
+                            <button type="submit" class="btn btn-lg btn-block btn-success pull-left">Update</button>
+                            <button type="reset" ng-click="reset()" class="btn btn-lg btn-block btn-secondary  pull-left">Cancel</button>
+                            <div class="clearfix"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
